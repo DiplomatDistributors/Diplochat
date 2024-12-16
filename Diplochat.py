@@ -28,10 +28,6 @@ warnings.filterwarnings('ignore')
 
 # from st_pages import hide_pages
 
-with open('config.yaml') as file:
-    config = yaml.load(file, Loader=SafeLoader)
-
-
 db_password = os.getenv('DB_PASSWORD')
 
 conn = pyodbc.connect(driver='{ODBC Driver 17 for SQL Server}',  
