@@ -173,23 +173,20 @@ if st.session_state['authentication_status']:
         st.session_state.full_name = "" 
 
     def user_signup(full_name,email):
-    # def user_signup():
-
-        conn = pyodbc.connect(driver='{ODBC Driver 17 for SQL Server}',  
-                server='diplomat-analytics-server.database.windows.net',  
-                database='Diplochat-DB',  
-                uid='analyticsadmin', pwd=db_password) 
-        # Insert log data into the AI_LOG table  
-        insert_query = """  
-        INSERT INTO DW_DIM_USERS (username, email, failed_login_attempts, logged_in, name, password)  
-        VALUES (?, ?, ?, ?, ?, ?)  
-        """  
-	# 
     	if email in user_df.eamil.values:
             st.toast(f"❌ User {full_name} already in the system with mail: {email}!")
 	elif '@' not in email or '.co' not in email:
 	    st.toast(f"❌ {email} not a valid email!")
 	else:
+            conn = pyodbc.connect(driver='{ODBC Driver 17 for SQL Server}',  
+                    server='diplomat-analytics-server.database.windows.net',  
+                    database='Diplochat-DB',  
+                    uid='analyticsadmin', pwd=db_password) 
+            # Insert log data into the AI_LOG table  
+            insert_query = """  
+            INSERT INTO DW_DIM_USERS (username, email, failed_login_attempts, logged_in, name, password)  
+            VALUES (?, ?, ?, ?, ?, ?)  
+            """	
 	    # username
 	    username = email.split('@')[0]
 	    password = email.split('@')[0]+''.join(str(i+1) for i in range(len(email.split('@')[0])))+'!'
